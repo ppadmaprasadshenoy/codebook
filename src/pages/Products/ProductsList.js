@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { ProductCard } from "../../components";
-import { FilterBar } from "./components/FilterBar";
 import { useLocation } from "react-router-dom";
 import { useTitle } from "../../hooks/useTitle";
+
+import { ProductCard } from "../../components";
+import { FilterBar } from "./components/FilterBar";
+
 import { useFilter } from "../../context";
 import { getProductList } from "../../services";
 import { toast } from "react-toastify";
@@ -12,19 +14,19 @@ export const ProductsList = () => {
   const [show, setShow] = useState(false);
   const search = useLocation().search;
   const searchTerm = new URLSearchParams(search).get("q");
-  useTitle("Explore EBook Collections");
-
+  useTitle("Explore eBooks Collection");
+ 
   useEffect(() => {
-    async function fetchProducts() {
+    async function fetchProducts(){
       try{
         const data = await getProductList(searchTerm);
-        initialProductList(data);
-      }catch(error){
-        toast.error(error.message, {closeButton:true, position: "bottom-center"});
+        initialProductList(data); 
+      } catch(error){
+        toast.error(error.message, {closeButton: true, position: "bottom-center" });
       }
-  }
-  fetchProducts();
-}, [searchTerm]); //eslint-disable-line
+    }
+    fetchProducts();
+  }, [searchTerm]); //eslint-disable-line
 
   return (
     <main>
@@ -39,13 +41,14 @@ export const ProductsList = () => {
           </div>    
 
           <div className="flex flex-wrap justify-center lg:flex-row">
-            {products.map((product) => (
-                <ProductCard key={product.id} product={product}/>
-            ))}
+            { products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            )) }            
           </div>  
         </section>
 
-        {show && < FilterBar setShow={setShow}/> }
-      </main> 
+        { show && <FilterBar setShow={setShow} /> }
+
+    </main> 
   )
 }

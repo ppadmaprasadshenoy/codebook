@@ -1,23 +1,23 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/logo.png";
-import { useEffect, useState } from "react";
 import { Search } from "../Sections/Search";
-import { DropdownLoggedIn, DropdownLoggedOut } from "../index";
+import { DropdownLoggedOut, DropdownLoggedIn } from "../index";
 import { useCart } from "../../context";
 
 export const Header = () => {
   const { cartList } = useCart();
-  const [darkMode, setDarkMode ] = useState(JSON.parse(localStorage.getItem("dark")) || false);
+  const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem("darkMode")) || false);
   const [searchSection, setSearchSection] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   const token = JSON.parse(sessionStorage.getItem("token"));
 
   useEffect(() => {
-    localStorage.setItem("dark", JSON.stringify(darkMode));
-
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+    
     if(darkMode){
       document.documentElement.classList.add("dark");
-    }else{
+    } else {
       document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
@@ -30,7 +30,6 @@ export const Header = () => {
                   <img src={Logo} className="mr-3 h-10" alt="CodeBook Logo" />
                   <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">CodeBook</span>
               </Link>
-              
               <div className="flex items-center relative">
                   <span onClick={() => setDarkMode(!darkMode)} className="cursor-pointer text-xl text-gray-700 dark:text-white mr-5 bi bi-gear-wide-connected"></span>
                   <span onClick={() => setSearchSection(!searchSection)} className="cursor-pointer text-xl text-gray-700 dark:text-white mr-5 bi bi-search"></span>
@@ -40,11 +39,11 @@ export const Header = () => {
                     </span>                    
                   </Link>
                   <span onClick={() => setDropdown(!dropdown)} className="bi bi-person-circle cursor-pointer text-2xl text-gray-700 dark:text-white"></span>
-                  { dropdown && (token ? <DropdownLoggedIn setDropdown={setDropdown}/> : <DropdownLoggedOut setDropdown={setDropdown}/>) }
+                  { dropdown && ( token ? <DropdownLoggedIn setDropdown={setDropdown} /> : <DropdownLoggedOut setDropdown={setDropdown} /> ) }
               </div>
           </div>
       </nav>
-      {searchSection && < Search setSearchSection={setSearchSection}/>}
+      { searchSection && <Search setSearchSection={setSearchSection} /> }
       
     </header>
   )
